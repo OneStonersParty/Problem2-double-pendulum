@@ -2,6 +2,7 @@ import matplotlib.pyplot as plt
 import matplotlib.animation as animation
 import math
 
+from AnimatedObject import *
 from Pendulum import *
 
 
@@ -12,7 +13,7 @@ L = 1.0  # length of pendulum in m
 DeltaT = 0.01 # time difference between pictures in s
 
 Phi1deg=179.99
-Phi2deg=179.999
+Phi2deg=179.99
 Omega1deg=0
 Omega2deg=0
 
@@ -34,9 +35,9 @@ def initAnimation():
 
 
 def updateAnimation(i):
-    pendulum1.simulate(DeltaT)
+    pendulum1.simulate('euler', DeltaT)
     todraw = pendulum1.drawing()
-    pendulum2.simulate(DeltaT)
+    pendulum2.simulate('runge–kutta', DeltaT)
     todraw += pendulum2.drawing()
     return todraw
 
