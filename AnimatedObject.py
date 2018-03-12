@@ -33,11 +33,16 @@ class ODEsim(AnimatedObject):
         k4 = self.F(self.state + deltaT * k3)
         self.state += deltaT / 6 * (k1 + 2 * k2 + 2 * k3 + k4)
     
-    def simulate(self, ODEsolver, deltaT): # simulate forward by deltaT
-        if ODEsolver.lower() == 'euler':
-            self.iterateEuler(deltaT)
-        elif ODEsolver.lower() == 'runge–kutta':
-            self.iterateRungeKutta(deltaT)
-        else:
-            raise NotImplementedError("ODE solver not found")
+    def simulate(self, ODEsolver, deltaT, SimTimeStep): # simulate forward by deltaT
+        if not hasattr(self, 'simTimeRemaining'):
+            self.simTimeRemaining = 0
+        self.simTimeRemaining += deltaT
+        while self.simTimeRemaining > SimTimeStep:
+            if ODEsolver.lower() == 'euler':
+                self.iterateEuler(SimTimeStep)
+            elif ODEsolver.lower() == 'runge–kutta':
+                self.iterateRungeKutta(SimTimeStep)
+            else:
+                raise NotImplementedError("ODE solver not found")
+            self.simTimeRemaining -= SimTimeStep
         

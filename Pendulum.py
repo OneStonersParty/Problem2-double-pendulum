@@ -5,11 +5,13 @@ from AnimatedObject import *
 
 class Pendulum(ODEsim):
     """Simulation of a pendulum"""
-    def __init__(self,ax,g,l,phi,omega):
+    def __init__(self, ax, g, l, phi, omega, x0, y0):
         self.ax = ax
         self.g = g
         self.l = l
         self.state = np.array([phi, omega])
+        self.x0 = x0
+        self.y0 = y0
         # create an empty line for later
         self.line, = ax.plot([], [], 'o-', lw=2)
     
@@ -23,8 +25,11 @@ class Pendulum(ODEsim):
         dState = np.array([dPhi, dOmega])
         return dState
     
+    def calculateCoordinates(self):
+        self.xCoords=[self.x0, self.x0 + self.l* sin(self.state[0])]
+        self.yCoords=[self.y0, self.y0 - self.l* cos(self.state[0])]
+    
     def drawing(self):
-        xCoords=[0, sin(self.state[0])]
-        yCoords=[0, -cos(self.state[0])]
-        self.line.set_data(xCoords,yCoords)
+        self.calculateCoordinates()
+        self.line.set_data(self.xCoords,self.yCoords)
         return self.line,
