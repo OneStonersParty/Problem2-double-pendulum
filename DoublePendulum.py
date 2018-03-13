@@ -11,20 +11,16 @@ class DoublePendulum(Pendulum):
         self.l2 = l2
         self.m = m
         self.m2 =m2
-        self.alpha = 0
-        self.alpha2 = 0
     
     def F(self, state):
         phi = state[0]
         omega = state[1]
         phi2 = state[2]
         omega2 = state[3]
-        dOmega = - self.m2 / (self.m + self.m2) * self.l2 / self.l * \
-                (self.alpha2 * cos(phi - phi2) + omega2 ** 2 * \
-                sin(phi - phi2)) - self.g / self.l * sin(phi)
+        dOmega = (self.g * self.m * sin(phi) - self.g * self.m2 * sin(phi2) * cos(phi - phi2) + self.g * self.m2 * sin(phi) + self.l * self.m2 * omega ** 2 * sin(phi - phi2) * cos(phi - phi2) + self.l2 * self.m2 * omega2 ** 2 * sin(phi - phi2)) / (self.l * (-self.m + self.m2 * cos(phi - phi2) ** 2 - self.m2))
         dPhi = omega
         dOmega2 = - self.l / self.l2 * \
-                (self.alpha * cos(phi - phi2) - omega ** 2 * \
+                (dOmega * cos(phi - phi2) - omega ** 2 * \
                 sin(phi - phi2)) - self.g / self.l2 * sin(phi2)
         dPhi2 = omega2
         self.alpha = dOmega

@@ -7,18 +7,23 @@ from Pendulum import *
 from DoublePendulum import *
 
 
-PlotSize=2
 
-G = 9.81  # acceleration due to gravity, in m/s^2
-L = 1.0  # length of pendulum in m
+
+G = 9.81
+L1 = 0.7
+L2 = 1
+M1 = 2
+M2 = 1
 FrameTime = 0.01 # time difference between pictures in s
 SimTimeStep = 0.001
 
-Phi1deg=170
-Phi2deg=170
+Phi1deg=90
+Phi2deg=180
 Omega1deg=0
 Omega2deg=0
 
+
+PlotSize  = (L1 + L2) * 1.1
 #setup figure
 fig = plt.figure()
 ax = fig.add_subplot(111, autoscale_on=False,
@@ -27,8 +32,8 @@ ax.set_aspect('equal')
 ax.grid(True)
 
 #setup pendulum
-pendulum1 = DoublePendulum(ax, G, L, L, math.radians(Phi2deg), math.radians(Omega2deg), math.radians(Phi2deg), math.radians(Omega2deg), 0, 0, 1, 1)
-pendulum2 = DoublePendulum(ax, G, L, L, math.radians(Phi2deg), math.radians(Omega2deg), math.radians(Phi2deg), math.radians(Omega2deg), 0, 0, 1, 1)
+pendulum1 = DoublePendulum(ax, G, L1, L2, math.radians(Phi1deg), math.radians(Omega2deg), math.radians(Phi2deg), math.radians(Omega2deg), 0, 0, M1, M2)
+pendulum2 = DoublePendulum(ax, G, L1, L2, math.radians(Phi1deg), math.radians(Omega2deg), math.radians(Phi2deg), math.radians(Omega2deg), 0, 0, M1, M2)
 
 def initAnimation():
     todraw = pendulum1.init()
